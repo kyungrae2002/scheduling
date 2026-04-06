@@ -28,6 +28,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Environment files (local configs)
+.env
 /.env.*
 *.local
 

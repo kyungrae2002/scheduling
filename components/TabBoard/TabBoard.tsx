@@ -9,8 +9,15 @@ import {
   addEdge,
   Connection,
   Edge,
-  MarkerType
+  Node,
+  MarkerType,
 } from '@xyflow/react';
+
+type StickyNodeData = {
+  text: string;
+  onSendToDashboard?: (text: string) => void;
+  [key: string]: unknown;
+};
 import '@xyflow/react/dist/style.css';
 import { v4 as uuidv4 } from 'uuid';
 import { StickyNode } from './StickyNode';
@@ -33,8 +40,8 @@ interface TabBoardProps {
 }
 
 export const TabBoard = ({ onSendToDashboard }: TabBoardProps) => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node<StickyNodeData>>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [rfInstance, setRfInstance] = useState<any>(null);
 
   // Inject onSendToDashboard callback into all node data whenever it changes

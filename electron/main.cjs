@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, nativeImage, ipcMain, net, screen, Menu, shell } = require('electron');
+const { app, BrowserWindow, Tray, nativeImage, ipcMain, Menu, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const http = require('http');
@@ -24,9 +24,6 @@ let mainWindow = null;
 
 function createWindow() {
   // 화면 크기 가져오기
-  const primaryDisplay = screen.getPrimaryDisplay();
-  const { width: screenWidth } = primaryDisplay.workAreaSize;
-
   mainWindow = new BrowserWindow({
     width: 420,
     height: 700,
@@ -153,14 +150,16 @@ function updateTrayMenu() {
   const contextMenu = Menu.buildFromTemplate(menuItems);
   tray.setContextMenu(contextMenu);
 
-  // 상단바 텍스트 변경
-  if (currentActiveTask) {
-    const title = ` CORE: ${currentActiveTask.title.substring(0, 8)}${currentActiveTask.title.length > 8 ? '...' : ''}`;
-    tray.setTitle(title);
-    console.log(`[Tray] Title Updated: ${title}`);
-  } else {
-    tray.setTitle(' 🎯 Core Tab'); 
-    console.log('[Tray] Title Updated: Default');
+  // 상단바 텍스트 변경 (macOS 전용)
+  if (process.platform === 'darwin') {
+    if (currentActiveTask) {
+      const title = ` CORE: ${currentActiveTask.title.substring(0, 8)}${currentActiveTask.title.length > 8 ? '...' : ''}`;
+      tray.setTitle(title);
+      console.log(`[Tray] Title Updated: ${title}`);
+    } else {
+      tray.setTitle(' 🎯 Core Tab');
+      console.log('[Tray] Title Updated: Default');
+    }
   }
 }
 
@@ -182,7 +181,14 @@ function createTray() {
   try {
     tray = new Tray(trayIcon);
     tray.setToolTip('Core Tab - Priority Focus System');
-    tray.setTitle(' 🎯 Core Tab'); // 즉시 타이틀 설정
+    if (process.platform === 'darwin') {
+      tray.setTitle(' 🎯 Core Tab');
+    }
+
+    // 트레이 클릭 시 창 토글 (Windows/Linux)
+    tray.on('click', (_event, bounds) => {
+      toggleWindow(bounds);
+    });
 
     // 첫 메뉴 조립
     updateTrayMenu();
@@ -192,7 +198,7 @@ function createTray() {
   }
 }
 
-ipcMain.on('sync-task-state', (event, activeTask) => {
+ipcMain.on('sync-task-state', (_event, activeTask) => {
   currentActiveTask = activeTask;
   updateTrayMenu();
 });
@@ -202,18 +208,19 @@ ipcMain.on('open-notification-settings', () => {
 });
 
 // [Step 2 - IPC] 포모도로 상태 수신 → 트레이 타이틀 반영
-ipcMain.on('sync-pomodoro-state', (event, data) => {
+ipcMain.on('sync-pomodoro-state', (_event, data) => {
   if (!tray) return;
   try {
     if (!data) {
-      // 포모도로 종료: 기존 태스크 타이틀로 복귀
       updateTrayMenu();
       return;
     }
-    const { sessionType, round } = data;
-    const labels = { work: '🍅 집중', shortBreak: '☕ 휴식', longBreak: '🛌 긴 휴식' };
-    const label = labels[sessionType] || '🍅';
-    tray.setTitle(` ${label} ${round ? `(${round}R)` : ''}`);
+    if (process.platform === 'darwin') {
+      const { sessionType, round } = data;
+      const labels = { work: '🍅 집중', shortBreak: '☕ 휴식', longBreak: '🛌 긴 휴식' };
+      const label = labels[sessionType] || '🍅';
+      tray.setTitle(` ${label} ${round ? `(${round}R)` : ''}`);
+    }
   } catch (err) {
     console.error('[Pomodoro] tray sync error:', err);
   }
