@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l /Users/downuy/Downloads/core-tab/components/*.tsx)",
+      "Bash(cp \"/Users/downuy/Downloads/core tab logo.png\" /Users/downuy/Downloads/core-tab/public/logo.png)",
+      "Bash(cp \"/Users/downuy/Downloads/core tab logo.png\" /Users/downuy/Downloads/core-tab/electron/icon.png)",
+      "Bash(convert --version)",
+      "Bash(node -e \"const {createCanvas} = require\\(''''canvas''''\\); console.log\\(''''canvas ok''''\\)\")",
+      "Bash(node -e \"const sharp = require\\(''''sharp''''\\); console.log\\(''''sharp ok''''\\)\")",
+      "Bash(grep -E \"^\\(canvas|sharp|jimp|pngjs\\)$\")",
+      "Read(//usr/local/bin/**)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(/usr/local/bin/npm run:*)",
+      "Bash(/usr/local/bin/node /usr/local/bin/npm run build)",
+      "Bash(PATH=\"/usr/local/bin:$PATH\")",
+      "Bash(/usr/local/bin/node /usr/local/lib/node_modules/npm/bin/npm-cli.js run build)",
+      "Bash(PATH=\"/usr/local/bin:$PATH\" /usr/local/bin/node /usr/local/lib/node_modules/npm/bin/npm-cli.js run build)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx vite:*)",
+      "Bash(/usr/local/bin/node node_modules/vite/bin/vite.js build)",
+      "Bash(/usr/local/bin/node /usr/local/bin/npm install)",
+      "Bash(grep -r \"localStorage.setItem\\\\|setInterval\\\\|setTimeout\" /Users/downuy/Downloads/core-tab/*.tsx)",
+      "Bash(grep -r \"VITE_\\\\|process.env\" /Users/downuy/Downloads/core-tab/*.tsx /Users/downuy/Downloads/core-tab/*.ts)",
+      "Bash(grep -l \"export\" /Users/downuy/Downloads/core-tab/components/*.tsx)",
+      "Bash(grep -n \"Timeline\\\\|WorkList\" /Users/downuy/Downloads/core-tab/components/*.tsx)",
+      "Bash(grep -r \"Timeline\\\\|WorkList\" /Users/downuy/Downloads/core-tab/*.tsx /Users/downuy/Downloads/core-tab/electron/)",
+      "Bash(grep -n \"googleProvider\" /Users/downuy/Downloads/core-tab/*.tsx /Users/downuy/Downloads/core-tab/components/*.tsx)",
+      "Bash(grep -rn \"google.com/accounts\\\\|google.com\\\\|firebaseapp\" /Users/downuy/Downloads/core-tab/electron/ /Users/downuy/Downloads/core-tab/*.ts)",
+      "Bash(grep -n \"GoogleAuthProvider\\\\|signInWithPopup\" /Users/downuy/Downloads/core-tab/components/*.tsx)",
+      "Bash(grep -rn \"api-proxy\\\\|/api/\\\\|axios.post.*api\" /Users/downuy/Downloads/core-tab/components/ /Users/downuy/Downloads/core-tab/*.tsx)",
+      "Bash(PATH=/usr/local/bin:$PATH npm list tailwindcss postcss autoprefixer)",
+      "Bash(PATH=\"/usr/local/bin:$PATH\" npm install -D tailwindcss@3 autoprefixer)",
+      "Bash(PATH=\"/usr/local/bin:$PATH\" npm install pretendard)",
+      "Bash(PATH=\"/usr/local/bin:$PATH\" /usr/local/bin/node node_modules/vite/bin/vite.js build)"
+    ]
+  }
+}
